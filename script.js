@@ -138,6 +138,97 @@ galleryTrack?.addEventListener('scroll', () => requestAnimationFrame(updateCarou
 window.addEventListener('resize', updateCarouselStatus);
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+const visualReelPhotos = [2, 8, 14, 16, 20, 22, 28].map((index) => galleryPhotos[index]);
+const reelPlayer = document.getElementById('reel-player');
+const reelImage = document.getElementById('reel-image');
+const reelTitle = document.getElementById('reel-title');
+const reelCategory = document.getElementById('reel-category');
+const reelPosition = document.getElementById('reel-position');
+const reelProgress = document.querySelector('.reel-progress');
+const reelProgressFill = document.getElementById('reel-progress-fill');
+const reelToggle = document.querySelector('[data-reel-toggle]');
+let reelIndex = 0;
+let reelAutoplayEnabled = !reducedMotion.matches;
+let reelPausedByPointer = false;
+let reelPausedByFocus = false;
+
+function renderReelFrame() {
+  const photo = visualReelPhotos[reelIndex];
+  if (!photo) return;
+  if (reelImage) {
+    reelImage.src = photo.image;
+    reelImage.alt = photo.alt;
+    reelImage.classList.remove('is-changing');
+    requestAnimationFrame(() => reelImage.classList.add('is-changing'));
+  }
+  if (reelTitle) reelTitle.textContent = photo.title;
+  if (reelCategory) reelCategory.textContent = photo.category.toUpperCase();
+  if (reelPosition) reelPosition.textContent = `${String(reelIndex + 1).padStart(2, '0')} / ${String(visualReelPhotos.length).padStart(2, '0')}`;
+  if (reelProgress) reelProgress.setAttribute('aria-valuenow', String(reelIndex + 1));
+  if (reelProgressFill) reelProgressFill.style.width = `${((reelIndex + 1) / visualReelPhotos.length) * 100}%`;
+}
+
+function updateReelToggle() {
+  if (!reelToggle) return;
+  reelToggle.setAttribute('aria-pressed', String(reelAutoplayEnabled));
+  reelToggle.innerHTML = reelAutoplayEnabled
+    ? '<span aria-hidden="true">Ⅱ</span> Pause reel'
+    : '<span aria-hidden="true">▶</span> Play reel';
+}
+
+function setReelFrame(index) {
+  reelIndex = (index + visualReelPhotos.length) % visualReelPhotos.length;
+  renderReelFrame();
+}
+
+renderReelFrame();
+updateReelToggle();
+
+reelToggle?.addEventListener('click', () => {
+  reelAutoplayEnabled = !reelAutoplayEnabled;
+  updateReelToggle();
+});
+document.querySelector('[data-reel-prev]')?.addEventListener('click', () => {
+  setReelFrame(reelIndex - 1);
+  reelAutoplayEnabled = false;
+  updateReelToggle();
+});
+document.querySelector('[data-reel-next]')?.addEventListener('click', () => {
+  setReelFrame(reelIndex + 1);
+  reelAutoplayEnabled = false;
+  updateReelToggle();
+});
+reelPlayer?.addEventListener('mouseenter', () => { reelPausedByPointer = true; });
+reelPlayer?.addEventListener('mouseleave', () => { reelPausedByPointer = false; });
+reelPlayer?.addEventListener('focusin', () => { reelPausedByFocus = true; });
+reelPlayer?.addEventListener('focusout', (event) => {
+  if (!reelPlayer.contains(event.relatedTarget)) reelPausedByFocus = false;
+});
+window.setInterval(() => {
+  if (reelAutoplayEnabled && !reelPausedByPointer && !reelPausedByFocus && !document.hidden) {
+    setReelFrame(reelIndex + 1);
+  }
+}, 5200);
+
+const reviewForm = document.getElementById('review-form');
+const reviewStatus = document.getElementById('review-status');
+reviewForm?.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const formData = new FormData(reviewForm);
+  const name = String(formData.get('name') || '').trim();
+  const project = String(formData.get('project') || '').trim();
+  const feedback = String(formData.get('feedback') || '').trim();
+  const hasPermission = formData.get('permission') === 'on';
+  const permissionNote = hasPermission
+    ? 'You may feature this feedback on your portfolio with my name.'
+    : 'Please ask me before sharing this feedback publicly.';
+  const message = `Hi Rakesh, I’m ${name}.\n\nI worked with you on: ${project}.\n\nMy feedback: “${feedback}”\n\n${permissionNote}`;
+  const whatsappUrl = `https://wa.me/919142548861?text=${encodeURIComponent(message)}`;
+  window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  if (reviewStatus) reviewStatus.textContent = 'WhatsApp opened with your message. Review it and tap Send to share your feedback.';
+});
+
 let autoplayEnabled = !reducedMotion.matches;
 let pointerIsDown = false;
 let pointerStartX = 0;

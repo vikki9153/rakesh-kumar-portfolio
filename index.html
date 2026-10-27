@@ -10,12 +10,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="portfolio-features.css">
 </head>
 <body>
   <header class="topbar">
     <a class="wordmark" href="#home" aria-label="Rakesh Kumar home"><span>RK</span><i></i></a>
     <nav aria-label="Main navigation">
       <a href="#work">Selected work</a>
+      <a href="#reel">Visual reel</a>
       <a href="#about">About</a>
       <a href="#services">Services</a>
     </nav>
@@ -76,6 +78,28 @@
       </div>
     </section>
 
+    <section class="visual-reel section-pad" id="reel">
+      <div class="section-head">
+        <div><p class="eyebrow">RAKESH KUMAR · VISUAL REEL</p><h2>Frames in <em>motion</em></h2></div>
+        <p class="section-note">A short, cinematic sequence from the photo collection. Pause or step through the frames at your own pace.</p>
+      </div>
+      <div class="reel-player" id="reel-player" aria-label="Auto-playing photo reel">
+        <img class="reel-image" id="reel-image" src="gallery-images/photo-03.jpg" alt="Seated portrait against a warm studio backdrop">
+        <div class="reel-shade" aria-hidden="true"></div>
+        <div class="reel-caption" aria-live="polite">
+          <p class="reel-kicker"><span id="reel-position">01 / 07</span><span id="reel-category">STUDIO</span></p>
+          <h3 id="reel-title">Studio session</h3>
+        </div>
+        <div class="reel-controls">
+          <button class="reel-control" type="button" data-reel-prev aria-label="Previous reel frame">←</button>
+          <button class="reel-toggle" type="button" data-reel-toggle aria-pressed="true"><span aria-hidden="true">Ⅱ</span> Pause reel</button>
+          <button class="reel-control" type="button" data-reel-next aria-label="Next reel frame">→</button>
+        </div>
+        <div class="reel-progress" role="progressbar" aria-label="Photo reel progress" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1"><span id="reel-progress-fill"></span></div>
+      </div>
+      <p class="reel-caption-note">Photo reel · A moving selection of still photographs</p>
+    </section>
+
     <section class="about section-pad" id="about">
       <div class="about-image"><img src="IMG_20251010_091053_940.webp" alt="Rakesh Kumar, cinematographer and visual storyteller"><span>BEHIND THE CAMERA <b>↘</b></span></div>
       <div class="about-copy"><p class="eyebrow">A LITTLE ABOUT ME</p><h2>Curious eyes.<br><em>Thoughtful frames.</em></h2>
@@ -93,6 +117,32 @@
         <a class="service-row" href="#contact"><span class="service-no">03</span><h3>Video editing <small>Story · Rhythm · Finish</small></h3><span class="service-arrow">↗</span></a>
         <a class="service-row" href="#contact"><span class="service-no">04</span><h3>Graphic design <small>Visual identity · Digital</small></h3><span class="service-arrow">↗</span></a>
       </div>
+    </section>
+
+    <section class="reviews section-pad" id="reviews">
+      <div class="section-head">
+        <div><p class="eyebrow">CLIENT FEEDBACK</p><h2>Good work is built on <em>trust.</em></h2></div>
+        <p class="section-note">Have we worked together? Share an honest note directly with Rakesh. Your feedback is only featured publicly with your permission.</p>
+      </div>
+      <form class="review-form" id="review-form">
+        <div class="review-fields">
+          <label>Your name<input name="name" type="text" autocomplete="name" maxlength="80" required></label>
+          <label>Project type<select name="project" required>
+            <option value="" disabled selected>Select a project</option>
+            <option>Cinematography / videography</option>
+            <option>Photography</option>
+            <option>Video editing</option>
+            <option>Graphic design</option>
+            <option>Other</option>
+          </select></label>
+          <label class="review-message">Your feedback<textarea name="feedback" rows="4" maxlength="700" placeholder="What was it like working together?" required></textarea></label>
+        </div>
+        <div class="review-submit-row">
+          <label class="review-consent"><input name="permission" type="checkbox"><span>Rakesh may feature this feedback with my name.</span></label>
+          <button class="button button-light" type="submit">Send feedback on WhatsApp <span>↗</span></button>
+        </div>
+        <p class="review-status" id="review-status" role="status" aria-live="polite">Your message will open in WhatsApp for you to review and send.</p>
+      </form>
     </section>
 
     <section class="contact" id="contact">
@@ -127,6 +177,7 @@
   </dialog>
 
   <footer><a class="wordmark footer-mark" href="#home"><span>RK</span><i></i></a><span>© <span id="year"></span> RAKESH KUMAR · MADE WITH INTENTION</span><a href="#home">BACK TO TOP ↑</a></footer>
+  <a class="whatsapp-float" href="https://wa.me/919142548861?text=Hi%20Rakesh%2C%20I%27d%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" aria-label="Chat with Rakesh on WhatsApp"><span class="whatsapp-icon" aria-hidden="true">WA</span><span>Chat on WhatsApp</span></a>
   <script src="script.js"></script>
 </body>
 </html>
