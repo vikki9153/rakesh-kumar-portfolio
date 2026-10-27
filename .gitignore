@@ -1,0 +1,6 @@
+# Keep original high-resolution uploads out of the repo; the site uses optimized copies.
+/*.jpg*
+/*.png
+/*.webp
+!/file_0000000074a07209b123269033f5ace9.png
+!/IMG_20251010_091053_940.webp
